@@ -12,16 +12,16 @@ on:
 
 jobs:
   TerraformBuild:
-    name: 'build infrastructure'
+    name: "build infrastructure"
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          token: ${{ github.TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set Azure ARM Credentials
+      - name: Export ARM Credentials for Terraform
         run: |
           echo "ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }}" >> $GITHUB_ENV
           echo "ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }}" >> $GITHUB_ENV
@@ -45,7 +45,7 @@ jobs:
 
 
   TerraformDeploy:
-    name: 'deploy infrastructure'
+    name: "deploy infrastructure"
     needs: TerraformBuild
     runs-on: ubuntu-latest
 
@@ -53,9 +53,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          token: ${{ github.TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set Azure ARM Credentials
+      - name: Export ARM Credentials for Terraform
         run: |
           echo "ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }}" >> $GITHUB_ENV
           echo "ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }}" >> $GITHUB_ENV

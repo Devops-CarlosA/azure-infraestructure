@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ github.TOKEN }}
 
       - name: Set Azure ARM Credentials
         run: |
@@ -50,6 +52,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ github.TOKEN }}
 
       - name: Set Azure ARM Credentials
         run: |

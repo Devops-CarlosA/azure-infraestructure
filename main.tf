@@ -28,3 +28,13 @@ module "storage_account" {
   container_name           = "tf-infra-${var.environment}"
   container_access_type    = "private"
 }
+
+module "acr" {
+  source              = "git@github.com:Devops-CarlosA/terraform-module.git//azure/acr?ref=main"
+  name                = "acr${var.prefix}${var.environment}"
+  sku                 = "Premium"
+  admin_enabled       = false
+  location            = var.location
+  zone_redundancy_enabled = true
+  tags                = local.common_tags
+}

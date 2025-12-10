@@ -32,6 +32,8 @@ module "storage_account" {
 module "acr" {
   source              = "git@github.com:Devops-CarlosA/terraform-module.git//azure/acr?ref=main"
   name                = "acr${var.prefix}${var.environment}"
+  resource_group_name = module.resource_group.resource_group_name
+  location          = module.resource_group.resource_group_location
   sku                 = "Premium"
   admin_enabled       = false
   location            = var.location

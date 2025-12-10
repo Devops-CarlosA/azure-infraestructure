@@ -36,7 +36,6 @@ module "acr" {
   location          = module.resource_group.resource_group_location
   sku                 = "Premium"
   admin_enabled       = false
-  location            = var.location
   zone_redundancy_enabled = true
   tags                = local.common_tags
 }

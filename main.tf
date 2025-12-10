@@ -1,6 +1,6 @@
 locals {
   # Sanitizar nombre para storage account (solo minúsculas y números, max 24 chars)
-  storage_name = lower(replace("sa${var.prefix}${var.environment}", "/[^a-z0-9]/", ""))
+  storage_name = lower(replace("tfsa${var.prefix}${var.environment}", "/[^a-z0-9]/", ""))
 
   # Tags comunes para todos los recursos
   common_tags = {
@@ -25,7 +25,6 @@ module "storage_account" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
   tags                     = local.common_tags
-  container_name           = "data-infra-${var.environment}"
+  container_name           = "tf-infra-${var.environment}"
   container_access_type    = "private"
 }
-

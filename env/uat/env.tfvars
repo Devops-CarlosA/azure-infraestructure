@@ -1,3 +1,3 @@
-environment = "uat"
-location    = "eastus2"
+environment = "staging"
+location    = "southcentralus"
 prefix      = "infra"

@@ -1,6 +1,6 @@
 name: CI/CD Infrastructure Pipeline
 
-run-name: Infrastructure is deploying ${{ github.repository }} 🚀🚀
+run-name: Infrastructure is deploying ${{ github.repository }} 🚀
 
 on:
   push:

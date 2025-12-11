@@ -8,7 +8,7 @@ output "storage_account_name" {
   value       = module.storage_account.storage_account_name
 }
 
-output "storage_container_name" {
+output "storage_container_names" {
   description = "Nombre del container creado"
-  value       = module.storage_account.storage_container_name
+  value       = module.storage_account.storage_container_names
 }

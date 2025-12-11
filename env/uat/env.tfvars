@@ -1,5 +1,5 @@
 #prefix=uat
-environment = "uat"
+environment = "staging"
 location    = "southcentralus"
 prefix      = "infra"
 

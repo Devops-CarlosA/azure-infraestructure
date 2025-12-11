@@ -7,13 +7,13 @@ prefix      = "infra"
 acrs = {
   "staging" = {
     name                    = "acrstaginginfra"
-    sku                     = "Premium"
+    sku                     = "Basic"
     admin_enabled           = false
     zone_redundancy_enabled = true
   }
   "backups" = {
     name                    = "acrstagingbackupsinfra"
-    sku                     = "Premium"
+    sku                     = "Basic"
     admin_enabled           = false
     zone_redundancy_enabled = true
   }

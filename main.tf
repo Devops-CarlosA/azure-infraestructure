@@ -42,3 +42,11 @@ module "acr" {
   zone_redundancy_enabled = each.value.zone_redundancy_enabled
   tags                    = local.common_tags
 }
+
+module "nsg" {
+  source               = "git@github.com:Devops-CarlosA/terraform-module.git//azure/nsg?ref=module-nsg"
+  name                 = "nsg-${var.prefix}-${var.environment}"
+  location             = var.location
+  resource_group_name  = module.resource_group.resource_group_name
+  tags                 = local.common_tags
+}

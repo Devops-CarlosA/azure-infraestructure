@@ -15,3 +15,14 @@ variable "location" {
   default     = "East US"
   description = "The Azure location where resources will be created"
 }
+
+variable "acrs" {
+  description = "Map of ACR configurations"
+  type = map(object({
+    name                    = string
+    sku                     = string
+    admin_enabled           = bool
+    zone_redundancy_enabled = bool
+  }))
+  default = {}
+}

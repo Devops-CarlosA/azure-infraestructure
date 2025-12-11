@@ -1,6 +1,6 @@
 name: CI/CD Infrastructure Pipeline
 
-run-name: Infrastructure is deploying ${{ github.repository }} 🚀🚀
+run-name: Infrastructure is deploying ${{ github.repository }} 🚀
 
 on:
   push:
@@ -57,7 +57,7 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
         run: terraform plan -var-file=env/uat/env.tfvars
 
   TerraformDeploy:

@@ -50,3 +50,13 @@ module "nsg" {
   resource_group_name  = module.resource_group.resource_group_name
   tags                 = local.common_tags
 }
+
+module "network" {
+  source               = "git@github.com:Devops-CarlosA/terraform-module.git//azure/network?ref=module-nsg"
+  name                 = "vnet-${var.prefix}-${var.environment}"
+  location             = var.location
+  resource_group_name  = module.resource_group.resource_group_name
+  address_space        = var.address_space
+  dns_servers          = var.dns_servers
+  tags                 = local.common_tags
+}

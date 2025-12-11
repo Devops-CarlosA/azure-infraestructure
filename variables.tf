@@ -26,3 +26,16 @@ variable "acrs" {
   }))
   default = {}
 }
+
+# variables network
+variable "address_space" {
+  type        = list(string)
+  default     = []
+  description = "The address space that is used by the virtual network"
+}
+
+variable "dns_servers" {
+  type        = list(string)
+  default     = []
+  description = "A list of DNS servers IP addresses"
+}

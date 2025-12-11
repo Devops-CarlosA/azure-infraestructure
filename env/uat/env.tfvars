@@ -3,6 +3,10 @@ environment = "staging"
 location    = "southcentralus"
 prefix      = "infra"
 
+# DNS servers for the virtual network
+dns_servers = ["10.0.0.4", "10.0.0.5"]
+address_space = ["10.0.0.0/16"]
+
 # Azure Container Registries
 acrs = {
   "staging" = {

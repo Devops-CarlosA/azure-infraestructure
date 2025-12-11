@@ -25,7 +25,7 @@ module "storage_account" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
   tags                     = local.common_tags
-  container_name           = ["tf-infra-${var.environment}", "backups-db"]
+  container_names           = ["tf-infra-${var.environment}", "backups-db"]
   container_access_type    = "private"
 }
 

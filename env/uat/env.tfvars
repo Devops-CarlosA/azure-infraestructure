@@ -13,10 +13,10 @@ acrs = {
   }
 
   # acr for backups staging environment
-  #"backups" = {
-  #  name                    = "acrstagingbackupsinfra"
-  #  sku                     = "Basic"
-  #  admin_enabled           = false
-  #  zone_redundancy_enabled = true
-  #}
+  "backups" = {
+    name                    = "acrstagingbackupsinfra"
+    sku                     = "Basic"
+    admin_enabled           = false
+    zone_redundancy_enabled = true
+  }
 }

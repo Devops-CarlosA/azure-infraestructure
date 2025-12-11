@@ -6,15 +6,15 @@ prefix      = "infra"
 # Azure Container Registries
 acrs = {
   "staging" = {
-    name                    = "acr-${prefix}-${environment}"
+    name                    = "acr-staging-infra"
     sku                     = "Premium"
     admin_enabled           = false
     zone_redundancy_enabled = true
   }
   "backups" = {
-    name                    = "acrinfra-backups-${prefix}-${environment}"
+    name                    = "acr-staging-backups-infra"
     sku                     = "Premium"
     admin_enabled           = false
-    zone_redundancy_enabled = t
+    zone_redundancy_enabled = true
   }
 }

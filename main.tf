@@ -52,7 +52,7 @@ module "nsg" {
 }
 
 module "network" {
-  source               = "git@github.com:Devops-CarlosA/terraform-module.git//azure/nsg?ref=module-nsg"
+  source               = "git@github.com:Devops-CarlosA/terraform-module.git//azure/network?ref=module-nsg"
   name                 = "vnet-${var.prefix}-${var.environment}"
   location             = var.location
   resource_group_name  = module.resource_group.resource_group_name

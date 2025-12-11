@@ -30,12 +30,14 @@ module "storage_account" {
 }
 
 module "acr" {
-  source              = "git@github.com:Devops-CarlosA/terraform-module.git//azure/acr?ref=main"
-  name                = "acr${var.prefix}${var.environment}"
-  resource_group_name = module.resource_group.resource_group_name
-  location = var.location
-  sku                 = "Premium"
-  admin_enabled       = false
-  zone_redundancy_enabled = true
-  tags                = local.common_tags
+  source   = "git@github.com:Devops-CarlosA/terraform-module.git//azure/acr?ref=main"
+  for_each = var.acrs
+
+  name                    = each.value.name
+  resource_group_name     = module.resource_group.resource_group_name
+  location                = var.location
+  sku                     = each.value.sku
+  admin_enabled           = each.value.admin_enabled
+  zone_redundancy_enabled = each.value.zone_redundancy_enabled
+  tags                    = local.common_tags
 }

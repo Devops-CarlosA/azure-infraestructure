@@ -39,3 +39,12 @@ variable "dns_servers" {
   default     = []
   description = "A list of DNS servers IP addresses"
 }
+
+variable "subnets" {
+  description = "Map of subnet configurations"
+  type = map(object({
+    address_prefixes = list(string)
+    service_endpoints = optional(list(string), [])
+  }))
+  default = {}
+}

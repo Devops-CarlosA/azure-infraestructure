@@ -60,3 +60,12 @@ module "network" {
   dns_servers          = var.dns_servers
   tags                 = local.common_tags
 }
+
+module "subnets" {
+  source               = "git@github.com:Devops-CarlosA/terraform-module.git//azure/subnets?ref=module-nsg"
+  for_each             = var.subnets
+  name                 = each.key
+  resource_group_name  = module.resource_group.resource_group_name
+  virtual_network_name = module.network.vnet_name
+  address_prefixes     = each.value.address_prefixes
+}

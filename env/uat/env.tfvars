@@ -9,12 +9,12 @@ address_space = ["10.0.0.0/16"]
 
 # Azure Container Registries
 acrs = {
-  "staging" = {
-    name                    = "acrstaginginfra"
-    sku                     = "Basic"
-    admin_enabled           = false
-    zone_redundancy_enabled = true
-  }
+  #"staging" = {
+  #  name                    = "acrstaginginfra"
+  #  sku                     = "Basic"
+  #  admin_enabled           = false
+  #  zone_redundancy_enabled = true
+  #}
 
   # acr for backups staging environment
   #"backups" = {

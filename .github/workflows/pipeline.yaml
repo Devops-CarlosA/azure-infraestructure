@@ -25,7 +25,6 @@ jobs:
         uses: returntocorp/semgrep-action@v1
         with:
           publishToken: ${{ secrets.SEMGREP_APP_TOKEN }}
-
       - name: Setup SSH Key for Private Modules
         uses: webfactory/ssh-agent@v0.8.0
         with:

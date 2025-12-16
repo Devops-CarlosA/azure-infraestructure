@@ -27,9 +27,11 @@ jobs:
       #    config: auto
 
       - name: Run Semgrep Scan
-        uses: semgrep/semgrep-action@v1
+        uses: docker://semgrep/semgrep
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+        with:
+          args: semgrep ci
 
       - name: Setup SSH Key for Private Modules
         uses: webfactory/ssh-agent@v0.8.0

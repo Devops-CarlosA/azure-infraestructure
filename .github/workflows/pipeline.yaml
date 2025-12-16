@@ -21,10 +21,15 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      #- name: Run Semgrep Scan
+      #  uses: semgrep/semgrep-action@v1
+      #  with:
+      #    config: auto
+
       - name: Run Semgrep Scan
         uses: semgrep/semgrep-action@v1
-        with:
-          config: auto
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
 
       - name: Setup SSH Key for Private Modules
         uses: webfactory/ssh-agent@v0.8.0

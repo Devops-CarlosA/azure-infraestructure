@@ -22,16 +22,16 @@ jobs:
         uses: actions/checkout@v3
 
       #- name: Run Semgrep Scan
-      #  uses: semgrep/semgrep-action@v1
+      #  uses: docker://semgrep/semgrep
+      #  env:
+      #    SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
       #  with:
-      #    config: auto
+      #    args: semgrep ci
 
-      - name: Run Semgrep Scan
-        uses: docker://semgrep/semgrep
-        env:
-          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+      - name: Run Semgrep Scan (¡El método nativo!)
+        uses: semgrep/semgrep-action@v1
         with:
-          args: semgrep ci
+          publishToken: ${{ secrets.SEMGREP_APP_TOKEN }}
 
       - name: Setup SSH Key for Private Modules
         uses: webfactory/ssh-agent@v0.8.0

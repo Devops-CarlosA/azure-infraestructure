@@ -23,8 +23,8 @@ jobs:
 
       - name: Run Semgrep Scan
         uses: semgrep/semgrep-action@v1
-        env:
-          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+        with:
+          config: auto
 
       - name: Setup SSH Key for Private Modules
         uses: webfactory/ssh-agent@v0.8.0

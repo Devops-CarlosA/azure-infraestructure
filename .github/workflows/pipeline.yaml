@@ -21,6 +21,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Run Semgrep Scan
+        uses: returntocorp/semgrep-action@v1
+        with:
+          publishToken: ${{ secrets.SEMGREP_TOKEN }}
+
       - name: Setup SSH Key for Private Modules
         uses: webfactory/ssh-agent@v0.8.0
         with:

@@ -27,7 +27,6 @@ jobs:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
         run: semgrep ci
 
-jobs:
   TerraformBuild:
     name: 'build infrastructure'
     runs-on: ubuntu-latest

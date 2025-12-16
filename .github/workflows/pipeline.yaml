@@ -29,6 +29,7 @@ jobs:
 
   TerraformBuild:
     name: 'build infrastructure'
+    neerds: SecurityScan
     runs-on: ubuntu-latest
     permissions:
       id-token: write

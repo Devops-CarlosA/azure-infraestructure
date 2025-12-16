@@ -11,8 +11,25 @@ on:
       - main
 
 jobs:
+  SecurityScan:
+    name: 'semgrep security scan'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    container:
+      image: semgrep/semgrep
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+        run: semgrep ci
+
   TerraformBuild:
     name: 'build infrastructure'
+    needs: SecurityScan
     runs-on: ubuntu-latest
     permissions:
       id-token: write

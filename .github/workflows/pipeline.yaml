@@ -11,6 +11,23 @@ on:
       - main
 
 jobs:
+  SecurityScan:
+    name: 'semgrep security scan'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    container:
+      image: semgrep/semgrep
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+        run: semgrep ci
+
+jobs:
   TerraformBuild:
     name: 'build infrastructure'
     runs-on: ubuntu-latest
@@ -20,20 +37,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-
-      #- name: Run Semgrep Scan
-      #  uses: docker://semgrep/semgrep
-      #  env:
-      #    SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
-      #  with:
-      #    args: semgrep ci
-
-      - name: Run Semgrep Scan
-        uses: semgrep/semgrep-action@v1
-        with:
-          publishToken: ${{ secrets.SEMGREP_APP_TOKEN }}
-          # Forzar la URL base por si hay problemas de redirección
-          semgrepAppUrl: 'https://semgrep.dev'
 
       - name: Setup SSH Key for Private Modules
         uses: webfactory/ssh-agent@v0.8.0

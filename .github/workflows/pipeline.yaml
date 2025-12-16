@@ -28,10 +28,12 @@ jobs:
       #  with:
       #    args: semgrep ci
 
-      - name: Run Semgrep Scan (¡El método nativo!)
+      - name: Run Semgrep Scan
         uses: semgrep/semgrep-action@v1
         with:
           publishToken: ${{ secrets.SEMGREP_APP_TOKEN }}
+          # Forzar la URL base por si hay problemas de redirección
+          semgrepAppUrl: 'https://semgrep.dev'
 
       - name: Setup SSH Key for Private Modules
         uses: webfactory/ssh-agent@v0.8.0

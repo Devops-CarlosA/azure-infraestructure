@@ -5,9 +5,11 @@ on:
     types: [opened, synchronize]
 
 permissions:
-  contents: read
+  contents: write
   pull-requests: write
   issues: write
+  id-token: write
+  actions: read # Required for Claude to read CI results on PRs
 
 jobs:
   code-review:

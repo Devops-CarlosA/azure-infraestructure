@@ -40,4 +40,4 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: claude-code /code-review --comment
+        run: npx @anthropic-ai/claude-code /code-review --comment

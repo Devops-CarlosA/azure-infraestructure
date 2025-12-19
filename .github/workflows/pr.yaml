@@ -24,7 +24,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -34,29 +33,22 @@ jobs:
       - name: Install Claude Code
         run: npm install -g @anthropic-ai/claude-code
 
-      - name: Run Code Review and Post Comment
+      - name: Setup GitHub CLI
+        run: gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Setup Claude Code plugin
+        run: |
+          # Crear directorio de comandos si no existe
+          mkdir -p .claude/commands
+          
+          # Copiar el plugin de code-review desde el repo de claude-code
+          # O crear el comando manualmente aquí
+
+      - name: Run Code Review with prompt
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          # Get the diff
-          DIFF=$(git diff ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }})
-          
-          # Run Claude review
-          REVIEW=$(npx @anthropic-ai/claude-code -p "Review this PR diff and provide constructive feedback:
-
-          ${DIFF}
-
-          Focus on:
-          - Code quality and best practices
-          - Potential bugs or issues
-          - Security concerns
-          - Performance improvements
-          
-          Be concise and specific.")
-          
-          # Post comment using GitHub CLI
-          echo "## 🤖 Claude Code Review
-
-          ${REVIEW}" | gh pr comment $PR_NUMBER --body-file -
+          # Ejecutar Claude Code con un prompt que invoque el comando
+          claude -p "Run /code-review --comment on PR #${{ github.event.pull_request.number }}" \
+            --dangerously-skip-permissions

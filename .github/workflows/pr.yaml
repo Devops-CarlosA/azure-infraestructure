@@ -5,17 +5,16 @@ on:
     types: [opened, synchronize]
 
 permissions:
-  contents: write
+  contents: read
   pull-requests: write
   issues: write
   id-token: write
-  actions: read # Required for Claude to read CI results on PRs
+  actions: read
 
 jobs:
   code-review:
     runs-on: ubuntu-latest
 
-    # Excluir PRs de bots
     if: |
       github.event.pull_request.draft == false &&
       !contains(github.event.pull_request.user.login, 'bot') &&

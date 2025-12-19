@@ -2,53 +2,37 @@ name: Claude Code Review
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize]
 
 permissions:
   contents: read
   pull-requests: write
+  issues: write
 
 jobs:
   code-review:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
 
+    # Excluir PRs de bots
     if: |
       github.event.pull_request.draft == false &&
       !contains(github.event.pull_request.user.login, 'bot') &&
-      !contains(github.event.pull_request.user.login, 'dependabot') &&
-      !contains(github.event.pull_request.user.login, 'renovate')
+      !contains(github.event.pull_request.user.login, 'dependabot')
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Run Claude Code Review
+        uses: anthropics/claude-code-action@v1
         with:
-          fetch-depth: 0
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Review this pull request. Focus on:
+            - Bugs and logic errors
+            - Security vulnerabilities
+            - Code quality issues
+            - Compliance with CLAUDE.md guidelines
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install Claude Code
-        run: npm install -g @anthropic-ai/claude-code
-
-      - name: Setup GitHub CLI
-        run: gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
-
-      - name: Setup Claude Code plugin
-        run: |
-          # Crear directorio de comandos si no existe
-          mkdir -p .claude/commands
-          
-          # Copiar el plugin de code-review desde el repo de claude-code
-          # O crear el comando manualmente aquí
-
-      - name: Run Code Review with prompt
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Ejecutar Claude Code con un prompt que invoque el comando
-          claude -p "Run /code-review --comment on PR #${{ github.event.pull_request.number }}" \
-            --dangerously-skip-permissions
+            Provide actionable feedback with specific line references.
+          claude_args: "--max-turns 5"

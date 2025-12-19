@@ -2,7 +2,7 @@ name: Claude Code Review
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: read
@@ -15,7 +15,7 @@ jobs:
   code-review:
     runs-on: ubuntu-latest
 
-    # Excluir PRs de bots
+    # Excluir PRs en draft y bots
     if: |
       github.event.pull_request.draft == false &&
       !contains(github.event.pull_request.user.login, 'bot') &&
@@ -23,19 +23,29 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Run Claude Code Review
         uses: anthropics/claude-code-action@v1
+        continue-on-error: true
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+
           prompt: |
-            Review this pull request. Focus on:
+            You are a senior software engineer performing a code review.
+
+            Review this pull request and focus on:
             - Bugs and logic errors
             - Security vulnerabilities
-            - Code quality issues
-            - Compliance with CLAUDE.md guidelines
+            - Performance and scalability concerns
+            - Code quality, readability, and maintainability
+            - Compliance with CLAUDE.md guidelines (if present)
 
-            Provide actionable feedback with specific line references.
-          claude_args: "--max-turns 5"
+            Provide actionable, concise feedback with:
+            - Specific file names and line numbers
+            - Clear reasoning
+            - Suggested improvements when possible
+
+          claude_args: |
+            --review
+            --max-turns 3

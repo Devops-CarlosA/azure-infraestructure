@@ -1,54 +1,38 @@
-name: Claude Code Review
+name: Claude Code
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-
-permissions:
-  contents: read
-  pull-requests: write
-  issues: write
-  id-token: write
-  actions: read
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  issues:
+    types: [opened, assigned]
+  pull_request_review:
+    types: [submitted]
 
 jobs:
-  code-review:
-    runs-on: ubuntu-latest
-
-    # Excluir PRs en draft y bots
+  claude:
     if: |
-      github.event.pull_request.draft == false &&
-      !contains(github.event.pull_request.user.login, 'bot') &&
-      !contains(github.event.pull_request.user.login, 'dependabot')
-
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
+      (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
-      - name: Run Claude Code Review
+      - name: Run Claude Code
+        id: claude
         uses: anthropics/claude-code-action@v1
-        continue-on-error: true
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-          prompt: |
-            REPO: ${{ github.repository }}
-            PR NUMBER: ${{ github.event.pull_request.number }}
-            You are a senior software engineer performing a code review.
-
-            Review this pull request and focus on:
-            - Bugs and logic errors
-            - Security vulnerabilities
-            - Performance and scalability concerns
-            - Code quality, readability, and maintainability
-            - Compliance with CLAUDE.md guidelines (if present)
-
-            Provide actionable, concise feedback with:
-            - Specific file names and line numbers
-            - Clear reasoning
-            - Suggested improvements when possible
-
-          claude_args: |
-            --review
-            --max-turns 3

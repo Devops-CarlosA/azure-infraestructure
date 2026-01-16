@@ -44,7 +44,7 @@ acrs = {
 # AKS configuration
 aks_node_pool_name = "agentpool"  # Node pool name (max 12 chars)
 aks_node_count     = 2
-aks_vm_size        = "Standard_D2as_v6"  # AMD-based, cost-effective option available in southcentralus
+aks_vm_size        = "Standard_D2pls_v5"  # ARM-based, most cost-effective (~$50-60/mo)
 aks_subnet_name    = "subnet-aks"
 
 # Cluster resources

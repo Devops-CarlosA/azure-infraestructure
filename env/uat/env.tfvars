@@ -42,7 +42,17 @@ acrs = {
 }
 
 # AKS configuration
-aks_node_pool_name = "agentpool"  # Nombre del pool de nodos (max 12 chars)
+aks_node_pool_name = "agentpool"  # Node pool name (max 12 chars)
 aks_node_count     = 2
-aks_vm_size        = "Standard_B2s"  # Burstable, ideal para dev/test (~$30/mes vs $107/mes)
+aks_vm_size        = "Standard_B2s"
 aks_subnet_name    = "subnet-aks"
+
+# Cluster resources
+install_argocd     = true  # Install ArgoCD automatically after cluster creation
+
+# AKS Network configuration
+aks_network_plugin  = "kubenet"        # kubenet (overlay) or azure (CNI)
+aks_network_policy  = "calico"         # calico, azure, or null
+aks_service_cidr    = "10.1.0.0/16"    # CIDR for Kubernetes services (must not overlap with VNet)
+aks_dns_service_ip  = "10.1.0.10"      # Kubernetes DNS IP (must be within service_cidr)
+aks_pod_cidr        = "10.244.0.0/16"  # CIDR for pods (kubenet only, must not overlap with VNet)

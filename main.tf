@@ -59,7 +59,7 @@ module "subnets" {
 }
 
 module "aks" {
-  source              = "git@github.com:Devops-CarlosA/terraform-module.git//azure/aks?ref=module-aks"
+  source              = "git@github.com:Devops-CarlosA/terraform-module.git//azure/aks?ref=main"
   name                = "aks-${var.prefix}-${var.environment}"
   location            = var.location
   resource_group_name = module.resource_group.resource_group_name

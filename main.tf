@@ -76,6 +76,7 @@ module "aks" {
   location            = var.location
   resource_group_name = module.resource_group.resource_group_name
   dns_prefix          = "aks-${var.prefix}-${var.environment}"
+  node_pool_name      = var.aks_node_pool_name
   node_count          = var.aks_node_count
   vm_size             = var.aks_vm_size
   vnet_subnet_id      = module.subnets[var.aks_subnet_name].subnet_id

@@ -42,6 +42,7 @@ acrs = {
 }
 
 # AKS configuration
-aks_node_count   = 2
-aks_vm_size      = "Standard_B2s"  # Burstable, ideal para dev/test (~$30/mes vs $107/mes)
-aks_subnet_name  = "subnet-aks"
+aks_node_pool_name = "agentpool"  # Nombre del pool de nodos (max 12 chars)
+aks_node_count     = 2
+aks_vm_size        = "Standard_B2s"  # Burstable, ideal para dev/test (~$30/mes vs $107/mes)
+aks_subnet_name    = "subnet-aks"

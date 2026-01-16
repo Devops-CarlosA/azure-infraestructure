@@ -50,6 +50,11 @@ variable "subnets" {
 }
 
 # AKS variables
+variable "aks_node_pool_name" {
+  description = "Name of the default node pool (max 12 chars, lowercase, alphanumeric)"
+  type        = string
+}
+
 variable "aks_node_count" {
   description = "Number of nodes in the default AKS node pool"
   type        = number

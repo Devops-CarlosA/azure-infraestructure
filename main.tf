@@ -91,9 +91,7 @@ resource "null_resource" "install_argocd" {
       module.aks.cluster_name
     )
   }
-
   triggers = {
     cluster_id = module.aks.cluster_id
   }
 }
-

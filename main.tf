@@ -1,15 +1,3 @@
-locals {
-  # Sanitizar nombre para storage account (solo minúsculas y números, max 24 chars)
-  storage_name = lower(replace("tfsa${var.prefix}${var.environment}", "/[^a-z0-9]/", ""))
-
-  # Tags comunes para todos los recursos
-  common_tags = {
-    environment = var.environment
-    managed_by  = "terraform"
-    project     = var.prefix
-  }
-}
-
 module "resource_group" {
   source   = "git@github.com:Devops-CarlosA/terraform-module.git//azure/rsg?ref=main"
   name     = "rg-${var.prefix}-${var.environment}"
@@ -69,3 +57,43 @@ module "subnets" {
   virtual_network_name = module.network.vnet_name
   address_prefixes     = each.value.address_prefixes
 }
+
+module "aks" {
+  source              = "git@github.com:Devops-CarlosA/terraform-module.git//azure/aks?ref=main"
+  name                = "aks-${var.prefix}-${var.environment}"
+  location            = var.location
+  resource_group_name = module.resource_group.resource_group_name
+  dns_prefix          = "aks-${var.prefix}-${var.environment}"
+  node_pool_name      = var.aks_node_pool_name
+  node_count          = var.aks_node_count
+  vm_size             = var.aks_vm_size
+  vnet_subnet_id      = module.subnets[var.aks_subnet_name].subnet_id
+
+  # Network configuration
+  network_plugin      = var.aks_network_plugin
+  network_policy      = var.aks_network_policy
+  service_cidr        = var.aks_service_cidr
+  dns_service_ip      = var.aks_dns_service_ip
+  pod_cidr            = var.aks_pod_cidr
+
+  tags                = local.common_tags
+}
+
+# ArgoCD installation
+resource "null_resource" "install_argocd" {
+  count      = var.install_argocd ? 1 : 0
+  depends_on = [module.aks]
+
+  provisioner "local-exec" {
+    command = format(
+      local.argocd_install_script_template,
+      module.resource_group.resource_group_name,
+      module.aks.cluster_name
+    )
+  }
+
+  triggers = {
+    cluster_id = module.aks.cluster_id
+  }
+}
+

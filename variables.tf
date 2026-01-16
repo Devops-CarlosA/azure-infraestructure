@@ -48,3 +48,19 @@ variable "subnets" {
   }))
   default = {}
 }
+
+# AKS variables
+variable "aks_node_count" {
+  description = "Number of nodes in the default AKS node pool"
+  type        = number
+}
+
+variable "aks_vm_size" {
+  description = "VM size for AKS nodes"
+  type        = string
+}
+
+variable "aks_subnet_name" {
+  description = "Name of the subnet to use for AKS nodes"
+  type        = string
+}

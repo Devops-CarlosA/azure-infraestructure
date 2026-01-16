@@ -69,3 +69,16 @@ module "subnets" {
   virtual_network_name = module.network.vnet_name
   address_prefixes     = each.value.address_prefixes
 }
+
+module "aks" {
+  source              = "git@github.com:Devops-CarlosA/terraform-module.git//azure/aks?ref=module-aks"
+  name                = "aks-${var.prefix}-${var.environment}"
+  location            = var.location
+  resource_group_name = module.resource_group.resource_group_name
+  dns_prefix          = "aks-${var.prefix}-${var.environment}"
+  node_count          = var.aks_node_count
+  vm_size             = var.aks_vm_size
+  vnet_subnet_id      = module.subnets[var.aks_subnet_name].subnet_id
+  tags                = local.common_tags
+}
+

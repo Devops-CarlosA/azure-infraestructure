@@ -60,10 +60,13 @@ module "subnets" {
 
 module "aks" {
   source              = "git@github.com:Devops-CarlosA/terraform-module.git//azure/aks?ref=main"
+  count               = var.enable_aks ? 1 : 0
+
   name                = "aks-${var.prefix}-${var.environment}"
   location            = var.location
   resource_group_name = module.resource_group.resource_group_name
   dns_prefix          = "aks-${var.prefix}-${var.environment}"
+  kubernetes_version  = var.aks_kubernetes_version
   node_pool_name      = var.aks_node_pool_name
   node_count          = var.aks_node_count
   vm_size             = var.aks_vm_size
@@ -81,17 +84,17 @@ module "aks" {
 
 # ArgoCD installation
 resource "null_resource" "install_argocd" {
-  count      = var.install_argocd ? 1 : 0
+  count      = var.enable_aks && var.install_argocd ? 1 : 0
   depends_on = [module.aks]
 
   provisioner "local-exec" {
     command = format(
       local.argocd_install_script_template,
       module.resource_group.resource_group_name,
-      module.aks.cluster_name
+      module.aks[0].cluster_name
     )
   }
   triggers = {
-    cluster_id = module.aks.cluster_id
+    cluster_id = module.aks[0].cluster_id
   }
 }

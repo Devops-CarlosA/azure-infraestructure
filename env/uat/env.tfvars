@@ -42,10 +42,12 @@ acrs = {
 }
 
 # AKS configuration
-aks_node_pool_name = "agentpool"  # Node pool name (max 12 chars)
-aks_node_count     = 1
-aks_vm_size        = "Standard_B2ps_v2"  # Burstable VM for students (~$40-50/mo)
-aks_subnet_name    = "subnet-aks"
+enable_aks             = false # Enaele or disable AKS cluster
+aks_node_pool_name     = "node1-${var.prefix}-${var.environment}"  # Node pool name (max 12 chars)
+aks_node_count         = 1
+aks_vm_size            = "Standard_B2ps_v2"  # Burstable VM for students (~$40-50/mo)
+aks_subnet_name        = "subnet-aks"
+aks_kubernetes_version = "1.33.5"  # Kubernetes version for the cluster
 
 # Cluster resources
 install_argocd     = true  # Install ArgoCD automatically after cluster creation

@@ -50,6 +50,12 @@ variable "subnets" {
 }
 
 # AKS variables
+variable "enable_aks" {
+  description = "Enable or disable the AKS cluster creation"
+  type        = bool
+  default     = true
+}
+
 variable "aks_node_pool_name" {
   description = "Name of the default node pool (max 12 chars, lowercase, alphanumeric)"
   type        = string
@@ -67,6 +73,11 @@ variable "aks_vm_size" {
 
 variable "aks_subnet_name" {
   description = "Name of the subnet to use for AKS nodes"
+  type        = string
+}
+
+variable "aks_kubernetes_version" {
+  description = "Kubernetes version for the AKS cluster"
   type        = string
 }
 

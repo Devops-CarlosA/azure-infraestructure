@@ -43,7 +43,7 @@ acrs = {
 
 # AKS configuration
 enable_aks             = false # Enaele or disable AKS cluster
-aks_node_pool_name     = "node1-${var.environment}"  # Node pool name (max 12 chars)
+aks_node_pool_name     = "node1"  # Node pool name (max 12 chars)
 aks_node_count         = 1
 aks_vm_size            = "Standard_B2ps_v2"  # Burstable VM for students (~$40-50/mo)
 aks_subnet_name        = "subnet-aks"
